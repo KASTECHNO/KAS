@@ -3,30 +3,31 @@
 @section('content')
 <div class="d-flex justify-content-between mb-3">
     <h2>Projects</h2>
-    <a href="{{ route('projects.create') }}" class="btn btn-primary">Add Project</a>
+    <a href="{{ route('admin.projects.create') }}" class="btn btn-primary">Add Project</a>
 </div>
 
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Icon</th>
             <th>Title</th>
-            <th>Description</th>
+            <th>Client</th>
+            <th>Sector</th>
+            <th>Featured</th>
             <th width="180">Actions</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($projects as $project)
+        @foreach($projects as $project)
         <tr>
-            <td><i class="{{ $project->icon }}"></i> {{ $project->icon }}</td>
             <td>{{ $project->title }}</td>
-            <td>{{ $project->description }}</td>
+            <td>{{ $project->client->name ?? '-' }}</td>
+            <td>{{ $project->sector->name ?? '-' }}</td>
+            <td>{{ $project->is_featured ? 'Yes' : 'No' }}</td>
             <td>
-                <a href="{{ route('projects.edit', $project) }}" class="btn btn-sm btn-warning">Edit</a>
-                <form action="{{ route('projects.destroy', $project) }}" method="POST" style="display:inline-block;">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</button>
+                <a href="{{ route('admin.projects.edit', $project) }}" class="btn btn-warning btn-sm">Edit</a>
+                <form action="{{ route('admin.projects.destroy', $project) }}" method="POST" style="display:inline-block;">
+                    @csrf @method('DELETE')
+                    <button class="btn btn-danger btn-sm">Del</button>
                 </form>
             </td>
         </tr>

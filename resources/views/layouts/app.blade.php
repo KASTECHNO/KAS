@@ -7,20 +7,25 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-    <a class="navbar-brand" href="#">Admin</a>
+    <a class="navbar-brand" href="{{ route('home') }}">KAS Admin</a>
     <div class="navbar-nav">
-        <a class="nav-item nav-link" href="{{ route('projects.index') }}">Projects</a>
-        <!-- plus tard : Services, Team, FAQ, etc. -->
+        <a class="nav-item nav-link" href="{{ route('admin.services.index') }}">Services</a>
+        <a class="nav-item nav-link" href="{{ route('admin.projects.index') }}">Projects</a>
+        <a class="nav-item nav-link" href="{{ route('admin.clients.index') }}">Clients</a>
+        <a class="nav-item nav-link" href="{{ route('admin.sectors.index') }}">Sectors</a>
+        <a class="nav-item nav-link" href="{{ route('admin.faq.index') }}">FAQ</a>
+        <a class="nav-item nav-link" href="{{ route('admin.testimonials.index') }}">Testimonials</a>
+        <a class="nav-item nav-link" href="{{ route('admin.products.index') }}">Products</a>
+        <a class="nav-item nav-link" href="{{ route('admin.contact-messages.index') }}">Messages</a>
     </div>
 </nav>
 
 <div class="container">
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="alert alert-success mt-2">{{ session('success') }}</div>
     @endif
 
     @yield('content')
 </div>
-
 </body>
 </html>

@@ -1,84 +1,54 @@
 <?php
+use App\Models\Service;
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 class ServiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $services = Service::orderBy('display_order')->get();
+        return view('admin.services.index', compact('services'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('admin.services.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'slug'  => 'required|unique:services,slug',
+        ]);
+
+        Service::create($request->all());
+
+        return redirect()->route('admin.services.index')->with('success', 'Service created.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit(Service $service)
     {
-        //
+        return view('admin.services.edit', compact('service'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(Request $request, Service $service)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'slug'  => 'required|unique:services,slug,'.$service->id,
+        ]);
+
+        $service->update($request->all());
+
+        return redirect()->route('admin.services.index')->with('success', 'Service updated.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function destroy(Service $service)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $service->delete();
+        return redirect()->route('admin.services.index')->with('success', 'Service deleted.');
     }
 }
