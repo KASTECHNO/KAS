@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\ActivitySector;
+use App\Http\Controllers\Controller;
+use App\ActivitySector;
 use Illuminate\Http\Request;
 
 class ActivitySectorController extends Controller
@@ -47,7 +47,7 @@ class ActivitySectorController extends Controller
             ->with('success', 'Sector updated successfully.');
     }
 
-    public function destroy(ActivitySector $sector)
+    public function delete(ActivitySector $sector)
     {
         $sector->delete();
 

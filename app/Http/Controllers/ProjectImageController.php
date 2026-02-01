@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\ProjectImage;
-use App\Models\Project;
+use App\Http\Controllers\Controller;
+use App\ProjectImage;
+use App\Project;
 use Illuminate\Http\Request;
 
 class ProjectImageController extends Controller
@@ -55,7 +55,7 @@ class ProjectImageController extends Controller
             ->with('success', 'Project image updated successfully.');
     }
 
-    public function destroy(ProjectImage $project_image)
+    public function delete(ProjectImage $project_image)
     {
         $project_image->delete();
 

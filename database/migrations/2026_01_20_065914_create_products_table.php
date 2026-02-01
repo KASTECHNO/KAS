@@ -14,6 +14,7 @@ class CreateProductsTable extends Migration
         $table->string('slug')->unique();
         $table->text('description')->nullable();
         $table->decimal('price', 10, 2)->nullable();
+        $table->unsignedInteger('display_order')->default(0);
         $table->string('image_url', 500)->nullable();
         $table->boolean('is_active')->default(true);
         $table->timestamps();

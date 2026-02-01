@@ -69,7 +69,7 @@
         </select>
     </div>
 
-    <button class="btn btn-success">Save</button>
+    <a href="{{ route('admin.projects.index') }}" class="btn btn-success">Save</a>
     <a href="{{ route('admin.projects.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 @endsection

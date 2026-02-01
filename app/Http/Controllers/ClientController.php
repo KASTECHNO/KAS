@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Client;
-use App\Models\ActivitySector;
+use App\Http\Controllers\Controller;
+use App\Client;
+use App\ActivitySector;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -50,7 +50,7 @@ class ClientController extends Controller
             ->with('success', 'Client updated successfully.');
     }
 
-    public function destroy(Client $client)
+    public function delete(Client $client)
     {
         $client->delete();
 

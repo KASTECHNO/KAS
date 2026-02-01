@@ -43,7 +43,7 @@
         <textarea name="description" class="form-control">{{ old('description', $client->description) }}</textarea>
     </div>
 
-    <button class="btn btn-success">Update</button>
+    <a href="{{ route('admin.clients.index') }}" class="btn btn-primary">Update</a>
     <a href="{{ route('admin.clients.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 @endsection

@@ -1,17 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Project;
-use App\Models\Client;
-use App\Models\ActivitySector;
+use App\Http\Controllers\Controller;
+use App\Project;
+use App\Client;
+use App\ActivitySector;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
+  
     public function index()
     {
-        $projects = Project::with('client','sector')->latest()->get();
+       $projects = Project::with('client','sector')->latest()->get();
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -55,7 +56,7 @@ class ProjectController extends Controller
             ->with('success', 'Project updated successfully.');
     }
 
-    public function destroy(Project $project)
+    public function delete(Project $project)
     {
         $project->delete();
 

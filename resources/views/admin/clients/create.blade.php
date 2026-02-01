@@ -36,7 +36,7 @@
         <textarea name="description" class="form-control"></textarea>
     </div>
 
-    <button class="btn btn-success">Save</button>
+   <a href="{{ route('admin.clients.index') }}" class="btn btn-success">Save</a>
     <a href="{{ route('admin.clients.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 @endsection

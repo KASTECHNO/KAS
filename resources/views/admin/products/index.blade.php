@@ -25,7 +25,7 @@
             <td>{{ $p->is_active ? 'Yes' : 'No' }}</td>
             <td>
                 <a href="{{ route('admin.products.edit', $p) }}" class="btn btn-warning btn-sm">Edit</a>
-                <form action="{{ route('admin.products.destroy', $p) }}" method="POST" style="display:inline-block;">
+                <form action="{{ route('admin.products.delete', $p) }}" method="POST" style="display:inline-block;">
                     @csrf @method('DELETE')
                     <button class="btn btn-danger btn-sm">Del</button>
                 </form>

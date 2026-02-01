@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Product;
-use App\Models\ActivitySector;
+use App\Http\Controllers\Controller;
+use App\Product;
+use App\ActivitySector;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -37,6 +37,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $sectors = ActivitySector::orderBy('name')->get();
+        
         return view('admin.products.edit', compact('product','sectors'));
     }
 
@@ -54,11 +55,17 @@ class ProductController extends Controller
             ->with('success', 'Product updated successfully.');
     }
 
-    public function destroy(Product $product)
+    public function delete(Product $product)
     {
         $product->delete();
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Product deleted successfully.');
+    }
+
+    public function allPost()
+    {
+        $products = \App\Product::all();
+        return view('admin.products.allpost', compact('products'));
     }
 }

@@ -1,9 +1,11 @@
 <?php
-use App\Models\Service;
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers; // ✅ OBLIGATOIRE
 
+use App\Http\Controllers\Controller;
+use App\Service;
 use Illuminate\Http\Request;
+
 class ServiceController extends Controller
 {
     public function index()
@@ -46,7 +48,7 @@ class ServiceController extends Controller
         return redirect()->route('admin.services.index')->with('success', 'Service updated.');
     }
 
-    public function destroy(Service $service)
+    public function delete(Service $service)
     {
         $service->delete();
         return redirect()->route('admin.services.index')->with('success', 'Service deleted.');

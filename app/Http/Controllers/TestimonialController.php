@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Testimonial;
+use App\Http\Controllers\Controller;
+use App\Testimonial;
 use Illuminate\Http\Request;
 
 class TestimonialController extends Controller
@@ -49,7 +49,7 @@ class TestimonialController extends Controller
             ->with('success', 'Testimonial updated successfully.');
     }
 
-    public function destroy(Testimonial $testimonial)
+    public function delete(Testimonial $testimonial)
     {
         $testimonial->delete();
 

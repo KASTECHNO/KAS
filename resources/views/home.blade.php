@@ -1,13 +1,494 @@
-<div class="row ">
-    @foreach($projects as $project)
-    <div class="col-lg-4 col-sm-6 ">
-        <div class="item ">
-            <span class="icon feature_box_col_four ">
-                <i class="{{ $project->icon }}"></i>
-            </span>
-            <h6>{{ $project->title }}</h6>
-            <p>{{ $project->description }}</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Company Website</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="icon" href="{{ asset('images/image.png') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <script src="{{ asset('js/main.js') }}"></script>
+</head>
+
+<body>
+    <header class="header">
+        <a href="#" class="logo2">
+           
+            <img src="{{ asset('images/image.png') }}" class="logo2" style="width: 150px; height: 100px;" alt="Logo">
+        </a>
+        <div class="fas fa-bars"></div>
+        <nav class="navbar">
+            <ul>
+                <li><a href="#home ">home</a></li>
+                <li><a href="#about ">about</a></li>
+                <li><a href="#service ">services</a></li>
+                <li><a href="#portfolio ">Projects</a></li>
+                <!--<li><a href="#team ">team</a></li>-->
+                <!--  <li><a href="careers.html ">career</a></li>-->
+                <li><a href="#contact ">contact</a></li>
+                <li><a href="#faq ">FAQ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home " class="home ">
+        <h1>Bring your Business Online</h1>
+        <h2>with KAS INNOVATION TECHOLOGY</h2>
+        <div class="wave wave1 "></div>
+        <div class="wave wave2 "></div>
+        <div class="wave wave3 "></div>
+    </section>
+
+    <section id="about " class="about ">
+        <h1 class="heading ">about us</h1>
+        <div class="row ">
+            <div class="content ">
+                <h3>We make creativity work for your brand!</h3>
+                <p>Ours is a team of creatives that is brainstorming on great ideas,<b> all. the. time.</b><br> With our skills put together, you get an ensemble capable of doing anything and everything your brand needs.</p>
+                <a href="# "><button class="btn ">Read More</button></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-section">
+    <h2 class="section-title">Our Services</h2>
+
+    <div class="cards-grid">
+        @foreach($services as $service)
+            <div class="card-box service-box">
+                <div class="icon-box">
+                    <i class="{{ $service->icon_class }}"></i>
+                </div>
+
+                <h4>{{ $service->title }}</h4>
+                <p>{{ $service->short_desc }}</p>
+            </div>
+        @endforeach
+    </div>
+</section>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js " integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj " crossorigin="anonymous "></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js " integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx " crossorigin="anonymous "></script>
+
+    <section class="counters ">
+        <div class="container ">
+            <div>
+                <i class="far fa-clock fa-4x "></i>
+                <div class="counter " data-target="13500 ">0</div>
+                <h3>Working Hours</h3>
+            </div>
+            <div>
+                <i class="fas fa-gift fa-4x "></i>
+                <div class="counter " data-target="720 ">0</div>
+                <h3>Completed Projects</h3>
+            </div>
+            <div>
+                <i class="fas fa-users fa-4x "></i>
+                <div class="counter " data-target="480 ">0</div>
+                <h3>Happy Clients</h3>
+            </div>
+            <div>
+                <i class="fas fa-award fa-4x "></i>
+                <div class="counter " data-target="120 ">0</div>
+                <h3>Awards Received</h3>
+            </div>
+        </div>
+    </section>
+
+<section class="home-section">
+    <h2 class="section-title">Our Projects</h2>
+
+    <div class="cards-grid">
+        @foreach($projects as $project)
+            <div class="card-box project-box">
+
+                <div class="image-box">
+                    <img src="{{ asset($project->main_image_url) }}"
+                         alt="{{ $project->title }}">
+                </div>
+
+                <h4>{{ $project->title }}</h4>
+                <p>{{ $project->short_desc }}</p>
+
+            </div>
+        @endforeach
+    </div>
+</section>
+
+
+
+    <div class="communicate ">
+        <h3>Your Vision, Our Code...</h3>
+        <p>Innovating Tomorrow, Today</p>
+        <a href="#contact "><button class="btn ">Contact Now</button></a>
+    </div>
+    <!--
+    <div class="testimonials mt-100 ">
+        <div class="container ">
+            <div class="section-header " style="text-align: center; ">
+                <h2 style="margin-top: -15rem; ">Testimonials</h2>
+                <p style="font-size: 2rem; ">
+                    See what people have to say about us
+                </p>
+            </div>
+
+            <div class="owl-carousel testimonials-carousel ">
+                <div class="testimonial-item row align-items-center ">
+                    <div class="testimonial-img ">
+                        <img src="./images/testimonial-1.jpg " alt="Testimonial image ">
+                    </div>
+                    <div class="testimonial-text ">
+                        <h3>Person-1</h3>
+                        <h4>Designation</h4>
+                        <p>
+                            Testimonial
+
+                        </p>
+                    </div>
+                </div>
+                <div class="testimonial-item row align-items-center ">
+                    <div class="testimonial-img ">
+                        <img src="./images/testimonial-2.jpg " alt="Testimonial image ">
+                    </div>
+                    <div class="testimonial-text ">
+                        <h3>Person-2</h3>
+                        <h4>Designation</h4>
+                        <p>
+                            Testimonial
+
+                        </p>
+                    </div>
+                </div>
+                <div class="testimonial-item row align-items-center ">
+                    <div class="testimonial-img ">
+                        <img src="./images/testimonial-3.jpg " alt="Testimonial image ">
+                    </div>
+                    <div class="testimonial-text ">
+                        <h3>Person-3</h3>
+                        <h4>Designation</h4>
+                        <p>
+                            Testimonial
+
+                        </p>
+                    </div>
+                </div>
+                <div class="testimonial-item row align-items-center ">
+                    <div class="testimonial-img ">
+                        <img src="./images/testimonial-4.jpg " alt="Testimonial image ">
+                    </div>
+                    <div class="testimonial-text ">
+                        <h3>Person-4</h3>
+                        <h4>Designation</h4>
+                        <p>
+                            Testimonial
+
+                        </p>
+                    </div>
+                </div>
+                <div class="testimonial-item row align-items-center ">
+                    <div class="testimonial-img ">
+                        <img src="./images/testimonial-5.jpg " alt="Testimonial image ">
+                    </div>
+                    <div class="testimonial-text ">
+                        <h3>Person-5</h3>
+                        <h4>Designation</h4>
+                        <p>
+                            Testimonial
+
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    @endforeach
+    -->
+    <div class="clients mt-100 ">
+        <div class="container ">
+            <div class="section-header ">               
+                <h2>Our Clients</h2>
+                <p>
+                    We don't just build softwares, we build your business.
+                </p>
+            </div>
+          <section class="home-section">
+    <div class="owl-carousel clients-carousel">
+        @foreach($clients as $client)
+            <div class="client-logo">
+                <img src="{{ asset($client->logo_url) }}" alt="{{ $client->name }}">
+            </div>
+        @endforeach
+    </div>
+</section>
+
+
+
+        </div>
+    </div>
+    
+    <a href="# " class="back-to-top "><i class="ion-ios-arrow-up "></i></a>
+    <script src="lib/jquery/jquery.min.js "></script>
+    <script src="lib/jquery/jquery-migrate.min.js "></script>
+    <script src="lib/bootstrap/js/bootstrap.bundle.min.js "></script>
+    <script src="lib/easing/easing.min.js "></script>
+    <script src="lib/waypoints/waypoints.min.js "></script>
+    <script src="lib/counterup/counterup.min.js "></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js "></script>
+    <script src="lib/lightbox/js/lightbox.min.js "></script>
+    <!--
+    <section class="team " style="margin-top: 7rem; ">
+        <h1 class="heading " style="margin-top: -1.5rem; " id="team ">our team</h1>
+        <p></p>
+        <div class="row ">
+            <div class="card ">
+                <div class="image ">
+                    <img src="./images/pexels-andrea-piacquadio-845434.jpg " alt="Team member 1 ">
+                </div>
+                <div class="info ">
+                    <h3>Schott Watkins</h3>
+                    <span>Web Developer</span>
+                    <div class="icons ">
+                        <a href="https://www.facebook.com/ " class="fab fa-facebook-f "></a>
+                        <a href="https://twitter.com/login " class="fab fa-twitter "></a>
+                        <a href="https://www.instagram.com/ " class="fab fa-instagram "></a>
+                        <a href="https://www.linkedin.com/ " class="fab fa-linkedin "></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="card ">
+                <div class="image ">
+                    <img src="./images/pexels-vinicius-wiesehofer-1130624.jpg " alt="Team member 1 ">
+                </div>
+                <div class="info ">
+                    <h3>Nicole Bell</h3>
+                    <span>Mobile Developer</span>
+                    <div class="icons ">
+                        <a href="https://www.facebook.com/ " class="fab fa-facebook-f "></a>
+                        <a href="https://twitter.com/login " class="fab fa-twitter "></a>
+                        <a href="https://www.instagram.com/ " class="fab fa-instagram "></a>
+                        <a href="https://www.linkedin.com/ " class="fab fa-linkedin "></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="card ">
+                <div class="image ">
+                    <img src="./images/pexels-hussein-altameemi-2776353.jpg " alt="Team member 1 ">
+                </div>
+                <div class="info ">
+                    <h3>John Doe</h3>
+                    <span>Graphic Designer</span>
+                    <div class="icons ">
+                        <a href="https://www.facebook.com/ " class="fab fa-facebook-f "></a>
+                        <a href="https://twitter.com/login " class="fab fa-twitter "></a>
+                        <a href="https://www.instagram.com/ " class="fab fa-instagram "></a>
+                        <a href="https://www.linkedin.com/ " class="fab fa-linkedin "></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="card ">
+                <div class="image ">
+                    <img src="./images/pexels-andrea-piacquadio-745136.jpg " alt="Team member 1 ">
+                </div>
+                <div class="info ">
+                    <h3>Rose Matthews</h3>
+                    <span>Web Designer</span>
+                    <div class="icons ">
+                        <a href="https://www.facebook.com/ " class="fab fa-facebook-f "></a>
+                        <a href="https://twitter.com/login " class="fab fa-twitter "></a>
+                        <a href="https://www.instagram.com/ " class="fab fa-instagram "></a>
+                        <a href="https://www.linkedin.com/ " class="fab fa-linkedin "></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+-->
+    <section id="contact" class="contact">
+    <h1 class="heading">Contactez-nous</h1>
+</section>
+
+<div class="contact-in">
+    <div class="contact-map">
+        <iframe src="" width="100%" height="400" style="border:0;" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <div class="contact-form">
+        <form action="{{ route('contact.store') }}" method="POST">
+            @csrf
+            <input type="text" name="fullname" placeholder="Nom complet" class="contact-form-txt" required>
+
+            <input type="tel" id="phone" name="phone"
+                   placeholder="Numéro de téléphone"
+                   class="contact-form-phone" required>
+
+            <input type="email" name="email" placeholder="Adresse e-mail" class="contact-form-email" required>
+
+            <textarea name="message" placeholder="Votre message" class="contact-form-txtarea" required></textarea>
+
+            <input type="submit" value="Envoyer" class="contact-form-btn">
+        </form>
+    </div>
 </div>
+
+
+    <section class="faq ">
+        <h1 class="heading " style="margin-top: -2rem; color: #00bfff; " id="faq ">FAQ</h1>
+        <div class="row ">
+            <div class="accordion-container ">
+                <div class="accordion ">
+                    <div class="accordion-header ">
+                        <span>+</span>
+                        <h3>How much will it cost?</h3>
+                    </div>
+                    <div class="accordion-body ">
+                        <p>To get a better idea of the cost of what you want to build, give us a quick phone call. We’ll ask you a few questions about the nature of the site, what sort of interactivity the site will have, your graphic design needs, etc.
+                            Then we’ll be able to give you a ballpark figure. If you’re still interested, we’ll come to your place of business and come up with a firm quote.</p>
+                    </div>
+                </div>
+                <div class="accordion ">
+                    <div class="accordion-header ">
+                        <span>+</span>
+                        <h3>How long it takes to design?</h3>
+                    </div>
+                    <div class="accordion-body ">
+                        <p>The time limit of any assignment is normally dictated by the client. If you have any time limit in mind we will attempt to assemble it for you. The main general delay in the making of a website is waiting for the content of the
+                            pages to be sent to us by the client.</p>
+                    </div>
+                </div>
+                <div class="accordion ">
+                    <div class="accordion-header ">
+                        <span>+</span>
+                        <h3>How do I associate with IT Company?</h3>
+                    </div>
+                    <div class="accordion-body ">
+                        <p>The process begins when you contact us with your requirements. We analyze your requirements and respond to you. On the basis of the further discussion, you can choose an engagement model that suits you the best. After that, we
+                            begin the process of development.</p>
+                    </div>
+                </div>
+                <div class="accordion ">
+                    <div class="accordion-header ">
+                        <span>+</span>
+                        <h3>Can you help my current site look more professional?</h3>
+                    </div>
+                    <div class="accordion-body ">
+                        <p>Yes. Give us your requirements and we have experienced expertise to help you give a new professional look that really wonders!</p>
+                    </div>
+                </div>
+                <div class="accordion ">
+                    <div class="accordion-header ">
+                        <span>+</span>
+                        <h3>When do I pay?</h3>
+                    </div>
+                    <div class="accordion-body ">
+                        <p>For most projects, equal payments are made at the start, midway, and the end of the project, but we can work with you to set up a schedule that meets your needs. We understand that this is a big investment and want to help you
+                            budget for the expense in whatever way possible. We accept checks, PayPal, and all major credit cards.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="footer align-items-center ">
+        <div class="footer-top align-items-center ">
+            <div class="container align-items-center ">
+
+                <div class="row " align-items-center>
+                    <div class="col-lg-3 col-md-6 footer-links ">
+                        <h4>About Us</h4>
+                        <ul>
+                            <li><i class="ion-ios-arrow-forward "></i> <a href="# ">Home</a></li>
+                            <li><i class="ion-ios-arrow-forward "></i> <a href="#about ">About us</a></li>
+                            <li><i class="ion-ios-arrow-forward "></i> <a href="#service ">Our services</a></li>
+                            <li><i class="ion-ios-arrow-forward "></i> <a href="# ">Terms & condition</a></li>
+                            <li><i class="ion-ios-arrow-forward "></i> <a href="# ">Privacy policy</a></li>
+                        </ul>
+                    </div>
+
+
+                    <div class="col-lg-3 col-md-6 footer-contact " style="font-size: 1.5rem; ">
+                        <h4>Contact Us</h4>
+                        <p> rue de tunis km 5 <br> SFAX<br> TUNISIE<br>
+                            <p> ile de France <br> PARIS<br> FRANCE<br>
+
+                                <strong>Phone: </strong>+33623778845<br>
+                                <strong>Email: </strong>contact@kas-technology.com<br>
+                            </p>
+
+                            <div class="social-links ">
+                                <a href="https://www.facebook.com/ "><i class="ion-logo-facebook"></i></a>
+                                <a href="https://twitter.com/login?lang=en "><i class="ion-logo-twitter"></i></a>
+                                <a href="https://www.linkedin.com/ "><i class="ion-logo-linkedin"></i></a>
+                                <a href="https://www.instagram.com/ "><i class="ion-logo-instagram"></i></a>
+                                <a href="https://accounts.google.com/servicelogin/signinchooser?flowName=GlifWebSignIn&flowEntry=ServiceLogin "><i class="ion-logo-googleplus "></i></a>
+                            </div>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-newsletter ">
+                        <h4>Subscription</h4>
+                        <p>With Our Skills Put Together, You Get An Ensemble Capable Of Doing Anything And Everything Your Brand Needs. Subscribe Here To Get Our Latest Updates.</p>
+                        <form action=" " method="post ">
+                            <input type="email " name="email "><input type="submit " value="Subscribe ">
+                        </form>
+                    </div>
+
+                </div>
+                </center>
+            </div>
+        </div>
+
+        <div class="container ">
+            <div class="row align-items-center ">
+                <div class="col-md-6 copyright " style="color: #fff; font-size: 1.3rem; ">
+                    Copyright &copy; 2025 KAS INNOVATION technology. All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="# " class="back-to-top "><i class="ion-ios-arrow-up "></i></a>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+$(document).ready(function(){
+    $('.clients-carousel').owlCarousel({
+        loop: true,
+        margin: 30,
+        nav: false,
+        dots: true,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        responsive: {
+            0: { items: 1 },
+            600: { items: 2 },
+            1000: { items: 4 }
+        }
+    });
+});
+</script>
+
+
+</body>
+
+</html>

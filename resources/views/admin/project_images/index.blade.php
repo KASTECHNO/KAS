@@ -25,7 +25,7 @@
             <td>{{ $img->display_order }}</td>
             <td>
                 <a href="{{ route('admin.project-images.edit', $img) }}" class="btn btn-warning btn-sm">Edit</a>
-                <form action="{{ route('admin.project-images.destroy', $img) }}" method="POST" style="display:inline-block;">
+                <form action="{{ route('admin.project-images.delete', $img) }}" method="POST" style="display:inline-block;">
                     @csrf @method('DELETE')
                     <button class="btn btn-danger btn-sm">Del</button>
                 </form>

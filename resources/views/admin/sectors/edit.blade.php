@@ -38,7 +38,7 @@
         </select>
     </div>
 
-    <button class="btn btn-success">Update</button>
+    <a href="{{ route('admin.sectors.index') }}" class="btn btn-primary">Update</a>
     <a href="{{ route('admin.sectors.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 @endsection

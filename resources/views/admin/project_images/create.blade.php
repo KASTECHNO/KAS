@@ -30,7 +30,7 @@
         <input type="number" name="display_order" class="form-control" value="0">
     </div>
 
-    <button class="btn btn-success">Save</button>
+    <a href="{{ route('admin.project_images.index') }}" class="btn btn-success">Save</a>
     <a href="{{ route('admin.project-images.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 @endsection
