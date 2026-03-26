@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
+use App\Services\CrmAutomationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ContactMessageController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request, CrmAutomationService $crmAutomationService)
     {
         $validated = $request->validate([
             'fullname' => 'required|string|max:255',
@@ -16,7 +18,16 @@ class ContactMessageController extends Controller
             'message' => 'required|string',
         ]);
 
-        ContactMessage::create($validated);
+        $contactMessage = ContactMessage::create($validated);
+
+        try {
+            $crmAutomationService->captureContactLead($contactMessage);
+        } catch (\Throwable $exception) {
+            Log::warning('Unable to capture CRM lead from contact form.', [
+                'contact_message_id' => $contactMessage->id,
+                'error' => $exception->getMessage(),
+            ]);
+        }
 
         return redirect()->back()->with('success', 'Message envoye avec succes !');
     }

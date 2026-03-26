@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $company->name ?? 'KAS Technology' }}</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/image.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,6 +17,7 @@
             --radius: 16px; --shadow: 0 16px 40px rgba(11,19,36,.08);
         }
         *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             margin: 0; font-family: 'Manrope', sans-serif; color: var(--ink);
             background: radial-gradient(circle at 0% 0%, #dbeafe 0, transparent 30%),
@@ -28,9 +30,74 @@
             backdrop-filter: blur(10px);
             background: rgba(238,242,255,.85);
         }
-        .topbar-inner { display: flex; justify-content: space-between; align-items: center; padding: 13px 0; }
-        .brand h1 { margin: 0; font-size: 1.15rem; }
-        .brand p  { margin: 2px 0 0; color: var(--muted); font-size: .88rem; }
+        .topbar-inner { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 13px 0; }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .menu-toggle {
+            display: none;
+            border: 1px solid #c7d2fe;
+            background: #eef2ff;
+            color: #1e3a8a;
+            border-radius: 10px;
+            width: 42px;
+            height: 42px;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            cursor: pointer;
+            flex: 0 0 auto;
+        }
+        .top-nav a {
+            text-decoration: none;
+            color: #1e3a8a;
+            background: #eef2ff;
+            border: 1px solid #c7d2fe;
+            border-radius: 999px;
+            padding: 6px 11px;
+            font-size: .82rem;
+            font-weight: 700;
+            line-height: 1;
+            transition: background .2s ease, transform .2s ease, color .2s ease;
+            white-space: nowrap;
+        }
+        .top-nav a:hover {
+            background: #dbeafe;
+            color: #1d4ed8;
+            transform: translateY(-1px);
+        }
+        section[id] { scroll-margin-top: 96px; }
+        .brand-mark {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            background: linear-gradient(135deg, #dbeafe, #ccfbf1);
+            display: grid;
+            place-items: center;
+            flex: 0 0 auto;
+            box-shadow: 0 10px 24px rgba(11,19,36,.08);
+        }
+        .brand-mark img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #fff;
+        }
+        .brand-mark span {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: .06em;
+        }
+        .brand-copy h1 { margin: 0; font-size: 1.15rem; }
+        .brand-copy p  { margin: 2px 0 0; color: var(--muted); font-size: .88rem; }
         .hero {
             display: grid; grid-template-columns: 1.2fr .8fr;
             gap: 20px; align-items: stretch;
@@ -130,9 +197,28 @@
             .client-card { width: 220px; min-height: 92px; }
             .tech-item { min-width: 144px; min-height: 78px; padding: 12px 14px; }
             .contact { grid-template-columns: 1fr; }
+            .topbar-inner { flex-wrap: wrap; row-gap: 10px; }
+            .menu-toggle { display: inline-flex; margin-left: auto; }
+            .top-nav {
+                display: none;
+                width: 100%;
+                justify-content: flex-start;
+                gap: 7px;
+                padding-top: 4px;
+            }
+            .top-nav.open { display: flex; }
         }
         @media (max-width: 560px) {
-            .brand h1 { font-size: 1rem; }
+            .brand-mark { width: 44px; height: 44px; border-radius: 12px; }
+            .brand-copy h1 { font-size: 1rem; }
+            .top-nav {
+                flex-wrap: wrap;
+                overflow-x: auto;
+                padding-bottom: 3px;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .top-nav::-webkit-scrollbar { display: none; }
             .hero h2  { font-size: 1.55rem; }
             .head h3  { font-size: 1.15rem; }
             .cols-3   { grid-template-columns: 1fr; }
@@ -153,12 +239,37 @@
     </style>
 </head>
 <body>
+@php
+    $companyLogo = asset('images/image.png');
+@endphp
 <header class="topbar">
     <div class="wrap topbar-inner">
         <div class="brand">
-            <h1>{{ $company->name ?? 'KAS Technology' }}</h1>
-            <p>{{ $company->slogan ?? 'Votre vision, notre code...' }}</p>
+            <div class="brand-mark" aria-hidden="true">
+                @if($companyLogo)
+                    <img src="{{ $companyLogo }}" alt="{{ $company->name ?? 'KAS Technology' }} logo">
+                @else
+                    <span>KAS</span>
+                @endif
+            </div>
+            <div class="brand-copy">
+                <h1>{{ $company->name ?? 'KAS Technology' }}</h1>
+                <p>{{ $company->slogan ?? 'Votre vision, notre code...' }}</p>
+            </div>
         </div>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="topNav">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <nav class="top-nav" id="topNav" aria-label="Navigation sections">
+            <a href="#services">Services</a>
+            <a href="#projects">Projets</a>
+            <a href="#technologies">Technologies</a>
+            <a href="#clients">Clients</a>
+            @if($testimonials->count())
+                <a href="#temoignages">Temoignages</a>
+            @endif
+            <a href="#contact">Contact</a>
+        </nav>
     </div>
 </header>
 <main class="wrap">
@@ -177,7 +288,7 @@
             @endforeach
         </aside>
     </section>
-    <section>
+    <section id="services">
         <div class="head"><h3><i class="fa-solid fa-screwdriver-wrench"></i>Services</h3><p>Des offres structurees pour concevoir, moderniser et faire evoluer vos produits digitaux.</p></div>
         <div class="grid cols-3">
             @foreach($services as $i => $service)
@@ -247,7 +358,7 @@
         <div class="toggle-wrap"><button class="toggle-btn" onclick="toggleList('services-more', this)"><i class="fa-solid fa-chevron-down"></i> Afficher plus</button></div>
         @endif
     </section>
-    <section>
+    <section id="projects">
         <div class="head"><h3><i class="fa-solid fa-diagram-project"></i>Projets a la une</h3><p>Une selection de realisations concues pour des environnements metier exigeants.</p></div>
         <div class="grid cols-3">
             @foreach($projects as $i => $project)
@@ -393,7 +504,7 @@
         <div class="toggle-wrap"><button class="toggle-btn" onclick="toggleList('projects-more', this)"><i class="fa-solid fa-chevron-down"></i> Afficher plus</button></div>
         @endif
     </section>
-    <section>
+    <section id="technologies">
         <div class="head"><h3><i class="fa-solid fa-microchip"></i>Technologies maitrisees</h3><p>Un socle technologique maitrise pour concevoir, integrer et industrialiser vos produits digitaux.</p></div>
         @php
             $technologies = [
@@ -430,7 +541,7 @@
             </div>
         </div>
     </section>
-    <section>
+    <section id="clients">
         <div class="head"><h3><i class="fa-solid fa-handshake"></i>Clients</h3><p>Des references accompagnees sur des sujets de transformation, modernisation applicative et delivery logiciel.</p></div>
         @php
             $displayClients = $clients->reject(fn ($client) => in_array($client->name, ['Symolia Technologies', 'OUIMIND', 'InfoSquare']))->values();
@@ -458,7 +569,7 @@
     </section>
 
     @if($testimonials->count())
-    <section>
+    <section id="temoignages">
         <div class="head"><h3><i class="fa-solid fa-star"></i>Ils nous font confiance</h3><p>Ce que nos clients disent de nous: des resultats concrets, une execution fiable et un impact business mesurable.</p></div>
         <div class="testimonials-grid">
             @foreach($testimonials->take(3) as $testimonial)
@@ -489,7 +600,7 @@
     </section>
     @endif
 
-    <section class="contact">
+    <section id="testimonial-form" class="contact">
         <article class="panel">
             <h3 style="margin-top:0;"><i class="fa-solid fa-comment-dots"></i> Votre temoignage compte</h3>
             <p>Votre experience avec KAS inspire de futurs projets. Partagez votre succes pour renforcer la confiance de nos prochains partenaires.</p>
@@ -508,7 +619,7 @@
         </form>
     </section>
 
-    <section class="contact">
+    <section id="contact" class="contact">
         <article class="panel">
             <h3 style="margin-top:0;"><i class="fa-solid fa-address-book"></i> Contact</h3>
             <p><i class="fa-solid fa-location-dot"></i> {{ $company->address ?? '-' }}</p>
@@ -536,6 +647,54 @@ function toggleList(id, btn) {
     btn.innerHTML = expanded ? '<i class="fa-solid fa-chevron-up"></i> Reduire' : '<i class="fa-solid fa-chevron-down"></i> Afficher plus';
     if (!expanded) { btn.closest('section').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
 }
+
+(function () {
+    var menuToggle = document.getElementById('menuToggle');
+    var topNav = document.getElementById('topNav');
+    var mobileBreakpoint = 860;
+
+    if (!menuToggle || !topNav) {
+        return;
+    }
+
+    function isMobileView() {
+        return window.innerWidth <= mobileBreakpoint;
+    }
+
+    function closeMobileMenu() {
+        topNav.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+    }
+
+    function syncMenuForViewport() {
+        if (!isMobileView()) {
+            // Desktop: force a clean state so going back to mobile starts closed.
+            closeMobileMenu();
+        }
+    }
+
+    menuToggle.addEventListener('click', function () {
+        if (!isMobileView()) {
+            closeMobileMenu();
+            return;
+        }
+
+        var expanded = topNav.classList.toggle('open');
+        menuToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    });
+
+    topNav.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+            if (isMobileView()) {
+                closeMobileMenu();
+            }
+        });
+    });
+
+    window.addEventListener('resize', syncMenuForViewport);
+    window.addEventListener('orientationchange', syncMenuForViewport);
+    syncMenuForViewport();
+})();
 </script>
 </body>
 </html>

@@ -137,8 +137,110 @@
         padding: 14px;
     }
 
+    .crm-grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        margin-bottom: 18px;
+    }
+
+    .crm-card {
+        border: 1px solid #d8e0f2;
+        border-radius: 14px;
+        background: linear-gradient(145deg, #ffffff 0%, #f8fbff 100%);
+        box-shadow: 0 12px 28px rgba(11, 19, 36, 0.08);
+        padding: 16px;
+    }
+
+    .crm-card h3 {
+        margin: 0 0 6px;
+        font-size: .82rem;
+        color: #4f5d75;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        font-weight: 800;
+    }
+
+    .crm-card strong {
+        display: block;
+        color: #0b1324;
+        font-size: clamp(1.4rem, 2vw, 2rem);
+        line-height: 1.1;
+        margin-bottom: 6px;
+    }
+
+    .crm-card span {
+        color: #4f5d75;
+        font-size: .88rem;
+    }
+
+    .crm-split {
+        display: grid;
+        grid-template-columns: 1.15fr .85fr;
+        gap: 14px;
+        margin: 0 0 16px;
+    }
+
+    .stage-list {
+        display: grid;
+        gap: 10px;
+    }
+
+    .stage-item {
+        border: 1px solid #d8e0f2;
+        border-radius: 12px;
+        background: #f8fbff;
+        padding: 12px;
+    }
+
+    .stage-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 8px;
+        color: #0b1324;
+        font-weight: 800;
+    }
+
+    .stage-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        color: #4f5d75;
+        font-size: .86rem;
+    }
+
+    .focus-list {
+        display: grid;
+        gap: 10px;
+    }
+
+    .focus-item {
+        border: 1px solid #d8e0f2;
+        border-radius: 12px;
+        background: #f8fbff;
+        padding: 12px;
+    }
+
+    .focus-item strong {
+        display: block;
+        color: #0b1324;
+        margin-bottom: 4px;
+    }
+
+    .focus-item span {
+        display: block;
+        color: #4f5d75;
+        font-size: .86rem;
+    }
+
     @media (max-width: 992px) {
         .split {
+            grid-template-columns: 1fr;
+        }
+
+        .crm-split {
             grid-template-columns: 1fr;
         }
     }
@@ -184,6 +286,9 @@
         <h2>Actions rapides</h2>
         <p>Raccourcis de pilotage et synchronisation des donnees web.</p>
         <div class="actions-row">
+            <a class="btn btn-primary" href="{{ route('admin.leads.index') }}"><i class="fas fa-user-plus mr-1"></i> Leads</a>
+            <a class="btn btn-primary" href="{{ route('admin.opportunities.index') }}"><i class="fas fa-handshake mr-1"></i> Opportunites</a>
+            <a class="btn btn-primary" href="{{ route('admin.crm-activities.index') }}"><i class="fas fa-list-check mr-1"></i> Activites CRM</a>
             <a class="btn btn-primary" href="{{ route('admin.kpis.index') }}"><i class="fas fa-chart-line mr-1"></i> Gerer KPI</a>
             <a class="btn btn-primary" href="{{ route('admin.projects.index') }}"><i class="fas fa-diagram-project mr-1"></i> Projets</a>
             <a class="btn btn-primary" href="{{ route('admin.clients.index') }}"><i class="fas fa-users mr-1"></i> Clients</a>
@@ -199,6 +304,102 @@
                 @csrf
                 <button type="submit" class="btn btn-success"><i class="fas fa-download mr-1"></i> Sync donnees + images</button>
             </form>
+        </div>
+    </section>
+</div>
+
+<div class="admin-hero" style="margin-top:4px;">
+    <h1>Dashboard CRM commercial</h1>
+    <p>Lecture immediate du pipeline, des conversions et des activites a traiter.</p>
+</div>
+
+<div class="crm-grid">
+    <article class="crm-card">
+        <h3>Leads Total</h3>
+        <strong>{{ number_format($crmKpis['leads_total'], 0, ',', ' ') }}</strong>
+        <span>Base de prospection disponible dans le CRM.</span>
+    </article>
+    <article class="crm-card">
+        <h3>Taux Conversion</h3>
+        <strong>{{ number_format($crmKpis['conversion_rate'], 1, ',', ' ') }} %</strong>
+        <span>Part des leads passes au statut converti.</span>
+    </article>
+    <article class="crm-card">
+        <h3>Pipeline Ouvert</h3>
+        <strong>{{ number_format($crmKpis['pipeline_open'], 0, ',', ' ') }} EUR</strong>
+        <span>Montant brut des opportunites encore ouvertes.</span>
+    </article>
+    <article class="crm-card">
+        <h3>Pipeline Pondere</h3>
+        <strong>{{ number_format($crmKpis['pipeline_weighted'], 0, ',', ' ') }} EUR</strong>
+        <span>Projection ajustee par probabilite de signature.</span>
+    </article>
+    <article class="crm-card">
+        <h3>Won Ce Mois</h3>
+        <strong>{{ number_format($crmKpis['won_this_month'], 0, ',', ' ') }} EUR</strong>
+        <span>CA gagne sur le mois courant selon closing prevu.</span>
+    </article>
+    <article class="crm-card">
+        <h3>Activites En Retard</h3>
+        <strong>{{ number_format($crmKpis['overdue_activities'], 0, ',', ' ') }}</strong>
+        <span>Taches et relances a reprendre immediatement.</span>
+    </article>
+</div>
+
+<div class="crm-split">
+    <section class="panel">
+        <h2>Pipeline par etape</h2>
+        <p>Photo rapide de la repartition commerciale par stade d avancement.</p>
+        <div class="stage-list">
+            @foreach($pipelineStages as $stage)
+                <div class="stage-item">
+                    <div class="stage-head">
+                        <span>{{ $stage['stage'] }}</span>
+                        <span>{{ number_format($stage['amount'], 0, ',', ' ') }} EUR</span>
+                    </div>
+                    <div class="stage-meta">
+                        <span>{{ $stage['count'] }} opportunite(s)</span>
+                        <span>{{ $stage['count'] > 0 ? 'active' : 'vide' }}</span>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Focus commercial</h2>
+        <p>Activites prioritaires et signatures recentes a garder visibles.</p>
+        <div class="ops-list" style="margin-bottom:12px;">
+            <div class="ops-item"><span>Actions a traiter aujourd hui</span><strong>{{ $activityFocus['pending_today'] }}</strong></div>
+        </div>
+        <div class="focus-list">
+            @forelse($activityFocus['upcoming'] as $activity)
+                <div class="focus-item">
+                    <strong>{{ $activity->subject }}</strong>
+                    <span>{{ optional($activity->lead)->fullname ?: 'Lead non renseigne' }}{{ $activity->opportunity ? ' | '.$activity->opportunity->name : '' }}</span>
+                    <span>Echeance: {{ optional($activity->due_at)->format('d/m/Y H:i') ?: '-' }}</span>
+                </div>
+            @empty
+                <div class="focus-item">
+                    <strong>Aucune activite planifiee</strong>
+                    <span>Le flux CRM est vide ou tout est traite.</span>
+                </div>
+            @endforelse
+        </div>
+        <h2 style="margin-top:16px;">Derniers gains</h2>
+        <div class="focus-list">
+            @forelse($activityFocus['recent_wins'] as $opportunity)
+                <div class="focus-item">
+                    <strong>{{ $opportunity->name }}</strong>
+                    <span>{{ optional($opportunity->client)->name ?: optional($opportunity->lead)->fullname ?: 'Compte non rattache' }}</span>
+                    <span>{{ number_format((float) $opportunity->amount, 0, ',', ' ') }} {{ $opportunity->currency }}</span>
+                </div>
+            @empty
+                <div class="focus-item">
+                    <strong>Aucun gain recent</strong>
+                    <span>Les opportunites gagnees apparaitront ici.</span>
+                </div>
+            @endforelse
         </div>
     </section>
 </div>
