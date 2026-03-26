@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.adminlte')
 
 @section('content')
 <div class="d-flex justify-content-between mb-3">
@@ -25,7 +25,7 @@
             <td>{{ $project->is_featured ? 'Yes' : 'No' }}</td>
             <td>
                 <a href="{{ route('admin.projects.edit', $project) }}" class="btn btn-warning btn-sm">Edit</a>
-                <form action="{{ route('admin.projects.destroy', $project) }}" method="POST" style="display:inline-block;">
+                <form action="{{ route('admin.projects.delete', $project) }}" method="POST" style="display:inline-block;">
                     @csrf @method('DELETE')
                     <button class="btn btn-danger btn-sm">Del</button>
                 </form>
@@ -35,3 +35,4 @@
     </tbody>
 </table>
 @endsection
+

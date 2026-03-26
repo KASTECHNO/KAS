@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.adminlte')
 
 @section('content')
 <h2>Edit Service</h2>
@@ -50,7 +50,8 @@
         </select>
     </div>
 
-    <button class="btn btn-success">Update</button>
+    <button type="submit" class="btn btn-success">Update</button>
     <a href="{{ route('admin.services.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 @endsection
+

@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Client;
-use App\Models\ActivitySector;
+use App\Http\Controllers\Controller;
+use  App\Models\Client;
+use  App\Models\ActivitySector;
+use App\Services\KpiMetricService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
@@ -24,9 +26,18 @@ class ClientController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'logo_file' => 'nullable|image|max:4096',
         ]);
 
-        Client::create($request->all());
+        $payload = $request->except('logo_file');
+
+        if ($request->hasFile('logo_file')) {
+            $payload['logo_path'] = $request->file('logo_file')->store('clients', 'public');
+            $payload['logo_url'] = Storage::disk('public')->url($payload['logo_path']);
+        }
+
+        Client::create($payload);
+        app(KpiMetricService::class)->recalculate();
 
         return redirect()->route('admin.clients.index')
             ->with('success', 'Client created successfully.');
@@ -42,9 +53,18 @@ class ClientController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'logo_file' => 'nullable|image|max:4096',
         ]);
 
-        $client->update($request->all());
+        $payload = $request->except('logo_file');
+
+        if ($request->hasFile('logo_file')) {
+            $payload['logo_path'] = $request->file('logo_file')->store('clients', 'public');
+            $payload['logo_url'] = Storage::disk('public')->url($payload['logo_path']);
+        }
+
+        $client->update($payload);
+        app(KpiMetricService::class)->recalculate();
 
         return redirect()->route('admin.clients.index')
             ->with('success', 'Client updated successfully.');
@@ -52,7 +72,13 @@ class ClientController extends Controller
 
     public function destroy(Client $client)
     {
+        return $this->delete($client);
+    }
+
+    public function delete(Client $client)
+    {
         $client->delete();
+        app(KpiMetricService::class)->recalculate();
 
         return redirect()->route('admin.clients.index')
             ->with('success', 'Client deleted successfully.');

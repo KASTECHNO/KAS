@@ -1,9 +1,12 @@
 <?php
-use App\Models\Service;
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers; // ✅ OBLIGATOIRE
 
+use App\Http\Controllers\Controller;
+use  App\Models\Service;
+use App\Services\KpiMetricService;
 use Illuminate\Http\Request;
+
 class ServiceController extends Controller
 {
     public function index()
@@ -25,6 +28,7 @@ class ServiceController extends Controller
         ]);
 
         Service::create($request->all());
+        app(KpiMetricService::class)->recalculate();
 
         return redirect()->route('admin.services.index')->with('success', 'Service created.');
     }
@@ -42,13 +46,20 @@ class ServiceController extends Controller
         ]);
 
         $service->update($request->all());
+        app(KpiMetricService::class)->recalculate();
 
         return redirect()->route('admin.services.index')->with('success', 'Service updated.');
     }
 
     public function destroy(Service $service)
     {
+        return $this->delete($service);
+    }
+
+    public function delete(Service $service)
+    {
         $service->delete();
+        app(KpiMetricService::class)->recalculate();
         return redirect()->route('admin.services.index')->with('success', 'Service deleted.');
     }
 }

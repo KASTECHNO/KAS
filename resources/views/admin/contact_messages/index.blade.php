@@ -1,32 +1,37 @@
-@extends('layouts.app')
+@extends('layouts.adminlte')
 
 @section('content')
-<h2>Contact Messages</h2>
+<div class="container">
+    <h1>Contact Messages</h1>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Fullname</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th width="180">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($messages as $msg)
-        <tr>
-            <td>{{ $msg->fullname }}</td>
-            <td>{{ $msg->email }}</td>
-            <td>{{ $msg->status }}</td>
-            <td>
-                <a href="{{ route('admin.contact-messages.show', $msg) }}" class="btn btn-info btn-sm">View</a>
-                <form action="{{ route('admin.contact-messages.destroy', $msg) }}" method="POST" style="display:inline-block;">
-                    @csrf @method('DELETE')
-                    <button class="btn btn-danger btn-sm">Del</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Message</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($messages as $msg)
+                <tr>
+                    <td>{{ $msg->fullname }}</td>
+                    <td>{{ $msg->phone }}</td>
+                    <td>{{ $msg->email }}</td>
+                    <td>{{ $msg->message }}</td>
+
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    {{ $messages->links() }}
+</div>
 @endsection
+

@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.adminlte')
 
 @section('content')
 <h2>Edit Testimonial</h2>
 
-<form action="{{ route('admin.testimonials.update', $testimonial) }}" method="POST">
+<form action="{{ route('admin.testimonials.update', $testimonial) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -37,6 +37,17 @@
     </div>
 
     <div class="form-group">
+        <label>Avatar Path (storage)</label>
+        <input type="text" name="avatar_path" class="form-control"
+               value="{{ old('avatar_path', $testimonial->avatar_path) }}" placeholder="testimonials/filename.png">
+    </div>
+
+    <div class="form-group">
+        <label>Avatar File</label>
+        <input type="file" name="avatar_file" class="form-control" accept="image/*">
+    </div>
+
+    <div class="form-group">
         <label>Display order</label>
         <input type="number" name="display_order" class="form-control"
                value="{{ old('display_order', $testimonial->display_order) }}">
@@ -50,7 +61,8 @@
         </select>
     </div>
 
-    <button class="btn btn-success">Update</button>
+    <button type="submit" class="btn btn-primary">Update</button>
     <a href="{{ route('admin.testimonials.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 @endsection
+

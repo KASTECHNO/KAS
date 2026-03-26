@@ -1,12 +1,30 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Testimonial;
+use App\Http\Controllers\Controller;
+use  App\Models\Testimonial;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TestimonialController extends Controller
 {
+    public function submitFromWebsite(Request $request)
+    {
+        $payload = $request->validate([
+            'client_name' => 'required|string|max:150',
+            'client_role' => 'nullable|string|max:150',
+            'company' => 'nullable|string|max:255',
+            'message' => 'required|string|max:3000',
+        ]);
+
+        $payload['is_active'] = false;
+        $payload['display_order'] = 0;
+
+        Testimonial::create($payload);
+
+        return redirect()->route('home')->with('testimonial_success', 'Merci. Votre temoignage a ete recu et sera publie apres validation de notre equipe.');
+    }
+
     public function index()
     {
         $testimonials = Testimonial::orderBy('display_order')->get();
@@ -23,9 +41,17 @@ class TestimonialController extends Controller
         $request->validate([
             'client_name' => 'required',
             'message'     => 'required',
+            'avatar_file' => 'nullable|image|max:4096',
         ]);
 
-        Testimonial::create($request->all());
+        $payload = $request->except('avatar_file');
+
+        if ($request->hasFile('avatar_file')) {
+            $payload['avatar_path'] = $request->file('avatar_file')->store('testimonials', 'public');
+            $payload['avatar_url'] = Storage::disk('public')->url($payload['avatar_path']);
+        }
+
+        Testimonial::create($payload);
 
         return redirect()->route('admin.testimonials.index')
             ->with('success', 'Testimonial created successfully.');
@@ -41,15 +67,28 @@ class TestimonialController extends Controller
         $request->validate([
             'client_name' => 'required',
             'message'     => 'required',
+            'avatar_file' => 'nullable|image|max:4096',
         ]);
 
-        $testimonial->update($request->all());
+        $payload = $request->except('avatar_file');
+
+        if ($request->hasFile('avatar_file')) {
+            $payload['avatar_path'] = $request->file('avatar_file')->store('testimonials', 'public');
+            $payload['avatar_url'] = Storage::disk('public')->url($payload['avatar_path']);
+        }
+
+        $testimonial->update($payload);
 
         return redirect()->route('admin.testimonials.index')
             ->with('success', 'Testimonial updated successfully.');
     }
 
     public function destroy(Testimonial $testimonial)
+    {
+        return $this->delete($testimonial);
+    }
+
+    public function delete(Testimonial $testimonial)
     {
         $testimonial->delete();
 

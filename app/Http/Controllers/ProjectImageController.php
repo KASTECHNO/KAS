@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\ProjectImage;
-use App\Models\Project;
+use App\Http\Controllers\Controller;
+use  App\Models\ProjectImage;
+use  App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectImageController extends Controller
 {
@@ -24,10 +25,22 @@ class ProjectImageController extends Controller
     {
         $request->validate([
             'project_id' => 'required|exists:projects,id',
-            'image_url'  => 'required',
+            'image_url'  => 'nullable',
+            'image_file' => 'nullable|image|max:6144',
         ]);
 
-        ProjectImage::create($request->all());
+        $payload = $request->except('image_file');
+
+        if ($request->hasFile('image_file')) {
+            $payload['image_path'] = $request->file('image_file')->store('projects/gallery', 'public');
+            $payload['image_url'] = Storage::disk('public')->url($payload['image_path']);
+        }
+
+        if (empty($payload['image_url'])) {
+            return back()->withErrors(['image_url' => 'Image URL or image file is required.'])->withInput();
+        }
+
+        ProjectImage::create($payload);
 
         return redirect()->route('admin.project-images.index')
             ->with('success', 'Project image created successfully.');
@@ -46,16 +59,33 @@ class ProjectImageController extends Controller
     {
         $request->validate([
             'project_id' => 'required|exists:projects,id',
-            'image_url'  => 'required',
+            'image_url'  => 'nullable',
+            'image_file' => 'nullable|image|max:6144',
         ]);
 
-        $project_image->update($request->all());
+        $payload = $request->except('image_file');
+
+        if ($request->hasFile('image_file')) {
+            $payload['image_path'] = $request->file('image_file')->store('projects/gallery', 'public');
+            $payload['image_url'] = Storage::disk('public')->url($payload['image_path']);
+        }
+
+        if (empty($payload['image_url'])) {
+            return back()->withErrors(['image_url' => 'Image URL or image file is required.'])->withInput();
+        }
+
+        $project_image->update($payload);
 
         return redirect()->route('admin.project-images.index')
             ->with('success', 'Project image updated successfully.');
     }
 
     public function destroy(ProjectImage $project_image)
+    {
+        return $this->delete($project_image);
+    }
+
+    public function delete(ProjectImage $project_image)
     {
         $project_image->delete();
 

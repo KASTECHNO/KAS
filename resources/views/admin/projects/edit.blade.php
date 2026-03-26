@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.adminlte')
 
 @section('content')
 <h2>Edit Project</h2>
 
-<form action="{{ route('admin.projects.update', $project) }}" method="POST">
+<form action="{{ route('admin.projects.update', $project) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -63,6 +63,17 @@
     </div>
 
     <div class="form-group">
+        <label>Main image path (storage)</label>
+        <input type="text" name="main_image_path" class="form-control"
+               value="{{ old('main_image_path', $project->main_image_path) }}" placeholder="projects/main/filename.png">
+    </div>
+
+    <div class="form-group">
+        <label>Main image file</label>
+        <input type="file" name="main_image_file" class="form-control" accept="image/*">
+    </div>
+
+    <div class="form-group">
         <label>Start date</label>
         <input type="date" name="start_date" class="form-control"
                value="{{ old('start_date', $project->start_date) }}">
@@ -82,7 +93,8 @@
         </select>
     </div>
 
-    <button class="btn btn-success">Update</button>
+    <button type="submit" class="btn btn-primary">Update</button>
     <a href="{{ route('admin.projects.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 @endsection
+

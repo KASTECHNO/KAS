@@ -7,39 +7,43 @@ use Illuminate\Http\Request;
 
 class ContactMessageController extends Controller
 {
-    // FRONT : store
     public function store(Request $request)
     {
-        $request->validate([
-            'fullname' => 'required',
-            'email'    => 'required|email',
-            'message'  => 'required',
+        $validated = $request->validate([
+            'fullname' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
+            'message' => 'required|string',
         ]);
 
-        ContactMessage::create($request->all());
+        ContactMessage::create($validated);
 
-        return back()->with('success', 'Message sent successfully.');
+        return redirect()->back()->with('success', 'Message envoye avec succes !');
     }
 
-    // ADMIN : index
     public function index()
     {
-        $messages = ContactMessage::latest()->get();
+        $messages = ContactMessage::latest()->paginate(10);
+
         return view('admin.contact_messages.index', compact('messages'));
     }
 
-    // ADMIN : show
     public function show(ContactMessage $contact_message)
     {
-        return view('admin.contact_messages.show', compact('contact_message'));
+        return view('admin.contact_messages.show', ['message' => $contact_message]);
     }
 
-    // ADMIN : destroy
     public function destroy(ContactMessage $contact_message)
     {
         $contact_message->delete();
 
-        return redirect()->route('admin.contact-messages.index')
-            ->with('success', 'Message deleted successfully.');
+        return redirect()
+            ->route('admin.contact-messages.index')
+            ->with('success', 'Message supprime avec succes.');
+    }
+
+    public function delete(ContactMessage $contact_message)
+    {
+        return $this->destroy($contact_message);
     }
 }

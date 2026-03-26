@@ -1,17 +1,20 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Project;
-use App\Models\Client;
-use App\Models\ActivitySector;
+use App\Http\Controllers\Controller;
+use  App\Models\Project;
+use  App\Models\Client;
+use  App\Models\ActivitySector;
+use App\Services\KpiMetricService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
+
     public function index()
     {
-        $projects = Project::with('client','sector')->latest()->get();
+       $projects = Project::with('client','sector')->latest()->get();
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -27,9 +30,18 @@ class ProjectController extends Controller
         $request->validate([
             'title' => 'required',
             'slug'  => 'required|unique:projects,slug',
+            'main_image_file' => 'nullable|image|max:6144',
         ]);
 
-        Project::create($request->all());
+        $payload = $request->except('main_image_file');
+
+        if ($request->hasFile('main_image_file')) {
+            $payload['main_image_path'] = $request->file('main_image_file')->store('projects/main', 'public');
+            $payload['main_image_url'] = Storage::disk('public')->url($payload['main_image_path']);
+        }
+
+        Project::create($payload);
+        app(KpiMetricService::class)->recalculate();
 
         return redirect()->route('admin.projects.index')
             ->with('success', 'Project created successfully.');
@@ -47,9 +59,18 @@ class ProjectController extends Controller
         $request->validate([
             'title' => 'required',
             'slug'  => 'required|unique:projects,slug,'.$project->id,
+            'main_image_file' => 'nullable|image|max:6144',
         ]);
 
-        $project->update($request->all());
+        $payload = $request->except('main_image_file');
+
+        if ($request->hasFile('main_image_file')) {
+            $payload['main_image_path'] = $request->file('main_image_file')->store('projects/main', 'public');
+            $payload['main_image_url'] = Storage::disk('public')->url($payload['main_image_path']);
+        }
+
+        $project->update($payload);
+        app(KpiMetricService::class)->recalculate();
 
         return redirect()->route('admin.projects.index')
             ->with('success', 'Project updated successfully.');
@@ -57,7 +78,13 @@ class ProjectController extends Controller
 
     public function destroy(Project $project)
     {
+        return $this->delete($project);
+    }
+
+    public function delete(Project $project)
+    {
         $project->delete();
+        app(KpiMetricService::class)->recalculate();
 
         return redirect()->route('admin.projects.index')
             ->with('success', 'Project deleted successfully.');

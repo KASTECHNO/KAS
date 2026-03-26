@@ -1,31 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin - KAS</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-    <a class="navbar-brand" href="{{ route('home') }}">KAS Admin</a>
-    <div class="navbar-nav">
-        <a class="nav-item nav-link" href="{{ route('admin.services.index') }}">Services</a>
-        <a class="nav-item nav-link" href="{{ route('admin.projects.index') }}">Projects</a>
-        <a class="nav-item nav-link" href="{{ route('admin.clients.index') }}">Clients</a>
-        <a class="nav-item nav-link" href="{{ route('admin.sectors.index') }}">Sectors</a>
-        <a class="nav-item nav-link" href="{{ route('admin.faq.index') }}">FAQ</a>
-        <a class="nav-item nav-link" href="{{ route('admin.testimonials.index') }}">Testimonials</a>
-        <a class="nav-item nav-link" href="{{ route('admin.products.index') }}">Products</a>
-        <a class="nav-item nav-link" href="{{ route('admin.contact-messages.index') }}">Messages</a>
-    </div>
-</nav>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<div class="container">
-    @if(session('success'))
-        <div class="alert alert-success mt-2">{{ session('success') }}</div>
-    @endif
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
+        <!-- Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+        <!-- Scripts -->
+        <script src="{{ asset('js/app.js') }}" defer></script>
+    </head>
+    <body class="font-sans antialiased">
+        <div class="min-h-screen bg-gray-100">
+            @include('layouts.navigation')
+
+            <!-- Page Heading -->
+   @if(isset($header))
+               <header class="bg-white shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+
+
+        {{ $header }}
+
+                </div>
+            </header>
+@endif
+
+
+
+
+            <!-- Page Content -->
+        <main>
     @yield('content')
-</div>
-</body>
+</main>
+        </div>
+    </body>
 </html>

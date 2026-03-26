@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.adminlte')
 
 @section('content')
 <h2>Add Client</h2>
 
-<form action="{{ route('admin.clients.store') }}" method="POST">
+<form action="{{ route('admin.clients.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <div class="form-group">
@@ -27,6 +27,16 @@
     </div>
 
     <div class="form-group">
+        <label>Logo Path (storage)</label>
+        <input type="text" name="logo_path" class="form-control" placeholder="clients/filename.png">
+    </div>
+
+    <div class="form-group">
+        <label>Logo Fichier</label>
+        <input type="file" name="logo_file" class="form-control" accept="image/*">
+    </div>
+
+    <div class="form-group">
         <label>Website URL</label>
         <input type="text" name="website_url" class="form-control">
     </div>
@@ -36,7 +46,8 @@
         <textarea name="description" class="form-control"></textarea>
     </div>
 
-    <button class="btn btn-success">Save</button>
+    <button type="submit" class="btn btn-success">Save</button>
     <a href="{{ route('admin.clients.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 @endsection
+

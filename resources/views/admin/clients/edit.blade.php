@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.adminlte')
 
 @section('content')
 <h2>Edit Client</h2>
 
-<form action="{{ route('admin.clients.update', $client) }}" method="POST">
+<form action="{{ route('admin.clients.update', $client) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -33,6 +33,17 @@
     </div>
 
     <div class="form-group">
+        <label>Logo Path (storage)</label>
+        <input type="text" name="logo_path" class="form-control"
+               value="{{ old('logo_path', $client->logo_path) }}" placeholder="clients/filename.png">
+    </div>
+
+    <div class="form-group">
+        <label>Logo Fichier</label>
+        <input type="file" name="logo_file" class="form-control" accept="image/*">
+    </div>
+
+    <div class="form-group">
         <label>Website URL</label>
         <input type="text" name="website_url" class="form-control"
                value="{{ old('website_url', $client->website_url) }}">
@@ -43,7 +54,8 @@
         <textarea name="description" class="form-control">{{ old('description', $client->description) }}</textarea>
     </div>
 
-    <button class="btn btn-success">Update</button>
+    <button type="submit" class="btn btn-primary">Update</button>
     <a href="{{ route('admin.clients.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 @endsection
+

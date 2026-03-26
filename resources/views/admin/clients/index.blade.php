@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.adminlte')
 
 @section('content')
 <div class="d-flex justify-content-between mb-3">
@@ -23,7 +23,7 @@
             <td>{{ $client->website_url }}</td>
             <td>
                 <a href="{{ route('admin.clients.edit', $client) }}" class="btn btn-warning btn-sm">Edit</a>
-                <form action="{{ route('admin.clients.destroy', $client) }}" method="POST" style="display:inline-block;">
+                <form action="{{ route('admin.clients.delete', $client) }}" method="POST" style="display:inline-block;">
                     @csrf @method('DELETE')
                     <button class="btn btn-danger btn-sm">Del</button>
                 </form>
@@ -33,3 +33,4 @@
     </tbody>
 </table>
 @endsection
+

@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\Controller;
 use App\Models\ActivitySector;
+use App\Services\KpiMetricService;
 use Illuminate\Http\Request;
 
 class ActivitySectorController extends Controller
@@ -25,6 +26,7 @@ class ActivitySectorController extends Controller
         ]);
 
         ActivitySector::create($request->all());
+        app(KpiMetricService::class)->recalculate();
 
         return redirect()->route('admin.sectors.index')
             ->with('success', 'Sector created successfully.');
@@ -42,6 +44,7 @@ class ActivitySectorController extends Controller
         ]);
 
         $sector->update($request->all());
+        app(KpiMetricService::class)->recalculate();
 
         return redirect()->route('admin.sectors.index')
             ->with('success', 'Sector updated successfully.');
@@ -49,7 +52,13 @@ class ActivitySectorController extends Controller
 
     public function destroy(ActivitySector $sector)
     {
+        return $this->delete($sector);
+    }
+
+    public function delete(ActivitySector $sector)
+    {
         $sector->delete();
+        app(KpiMetricService::class)->recalculate();
 
         return redirect()->route('admin.sectors.index')
             ->with('success', 'Sector deleted successfully.');

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.adminlte')
 
 @section('content')
 <h2>Message Details</h2>
@@ -14,3 +14,4 @@
 
 <a href="{{ route('admin.contact-messages.index') }}" class="btn btn-secondary mt-3">Back</a>
 @endsection
+

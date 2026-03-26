@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.adminlte')
 
 @section('content')
 <h2>Edit Product</h2>
 
-<form action="{{ route('admin.products.update', $product) }}" method="POST">
+<form action="{{ route('admin.products.update', $product) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -49,6 +49,11 @@
     </div>
 
     <div class="form-group">
+        <label>Image File</label>
+        <input type="file" name="image_file" class="form-control" accept="image/*">
+    </div>
+
+    <div class="form-group">
         <label>Active</label>
         <select name="is_active" class="form-control">
             <option value="1" {{ old('is_active', $product->is_active) ? 'selected' : '' }}>Yes</option>
@@ -56,7 +61,8 @@
         </select>
     </div>
 
-    <button class="btn btn-success">Update</button>
+    <button type="submit" class="btn btn-primary">Update</button>
     <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 @endsection
+
