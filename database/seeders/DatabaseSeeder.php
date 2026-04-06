@@ -15,7 +15,10 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AdminUserSeeder::class,
+            WebsiteStaticSeeder::class,
             CrmWorkflowSeeder::class,
+            StageSeeder::class,
+            PricingPlanSeeder::class,
         ]);
     }
 }

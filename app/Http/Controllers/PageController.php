@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\ActivitySector;
 use App\Models\Client;
 use App\Models\Company;
+use App\Models\PricingPlan;
 use App\Models\Project;
 use App\Models\Service;
+use App\Models\Stage;
 use App\Models\Testimonial;
 use App\Services\KpiMetricService;
 use Illuminate\Http\Request;
@@ -148,6 +150,30 @@ class PageController extends Controller
 
         $kpis = $kpiMetricService->getHomepageKpis();
 
-        return view('home', compact('company', 'services', 'sectors', 'projects', 'testimonials', 'clients', 'kpis'));
+        $pricingPlans = PricingPlan::where('is_active', true)
+            ->orderBy('display_order')
+            ->orderBy('id')
+            ->get();
+
+        $stages = Stage::where('is_active', true)
+            ->orderByDesc('id')
+            ->take(6)
+            ->get();
+
+        return view('home', compact('company', 'services', 'sectors', 'projects', 'testimonials', 'clients', 'kpis', 'pricingPlans', 'stages'));
+    }
+
+    public function stages()
+    {
+        $company = Company::query()->first();
+        $stages  = Stage::where('is_active', true)->orderByDesc('id')->get();
+        return view('stages.index', compact('company', 'stages'));
+    }
+
+    public function stageShow(string $slug)
+    {
+        $company = Company::query()->first();
+        $stage   = Stage::where('slug', $slug)->where('is_active', true)->firstOrFail();
+        return view('stages.show', compact('company', 'stage'));
     }
 }

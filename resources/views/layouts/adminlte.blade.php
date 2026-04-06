@@ -239,6 +239,9 @@
                     <li class="nav-item"><a href="{{ route('admin.testimonials.index') }}" class="nav-link {{ request()->routeIs('admin.testimonials.*') ? 'active' : '' }}"><i class="nav-icon fas fa-comments"></i><p>Temoignages</p></a></li>
                     <li class="nav-item"><a href="{{ route('admin.contact-messages.index') }}" class="nav-link {{ request()->routeIs('admin.contact-messages.*') ? 'active' : '' }}"><i class="nav-icon fas fa-envelope"></i><p>Messages</p></a></li>
                     <li class="nav-item"><a href="{{ route('admin.company.index') }}" class="nav-link {{ request()->routeIs('admin.company.*') ? 'active' : '' }}"><i class="nav-icon fas fa-building"></i><p>Entreprise</p></a></li>
+                    <li class="nav-item"><a href="{{ route('admin.stages.index') }}" class="nav-link {{ request()->routeIs('admin.stages.*') ? 'active' : '' }}"><i class="nav-icon fas fa-graduation-cap"></i><p>Stages</p></a></li>
+                    <li class="nav-item"><a href="{{ route('admin.candidatures.index') }}" class="nav-link {{ request()->routeIs('admin.candidatures.*') ? 'active' : '' }}"><i class="nav-icon fas fa-file-alt"></i><p>Candidatures</p></a></li>
+                    <li class="nav-item"><a href="{{ route('admin.pricing.index') }}" class="nav-link {{ request()->routeIs('admin.pricing.*') ? 'active' : '' }}"><i class="nav-icon fas fa-tags"></i><p>Tarifs</p></a></li>
                 </ul>
             </nav>
         </div>
