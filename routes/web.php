@@ -17,10 +17,58 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\StageCandidatureController;
 use App\Http\Controllers\StageController;
 use App\Http\Controllers\TestimonialController;
+use App\Models\Stage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/sitemap.xml', function () {
+    $urls = [
+        [
+            'loc' => route('home'),
+            'changefreq' => 'weekly',
+            'priority' => '1.0',
+            'lastmod' => now()->toAtomString(),
+        ],
+        [
+            'loc' => route('stages.index'),
+            'changefreq' => 'daily',
+            'priority' => '0.8',
+            'lastmod' => now()->toAtomString(),
+        ],
+    ];
+
+    $stageUrls = Stage::query()
+        ->where('is_active', true)
+        ->get(['slug', 'updated_at'])
+        ->map(function (Stage $stage) {
+            return [
+                'loc' => route('stages.show', ['slug' => $stage->slug]),
+                'changefreq' => 'weekly',
+                'priority' => '0.7',
+                'lastmod' => optional($stage->updated_at)->toAtomString() ?? now()->toAtomString(),
+            ];
+        })
+        ->all();
+
+    $urls = array_merge($urls, $stageUrls);
+
+    $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+    $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+
+    foreach ($urls as $url) {
+        $xml .= "  <url>\n";
+        $xml .= '    <loc>' . htmlspecialchars($url['loc'], ENT_XML1) . "</loc>\n";
+        $xml .= '    <lastmod>' . $url['lastmod'] . "</lastmod>\n";
+        $xml .= '    <changefreq>' . $url['changefreq'] . "</changefreq>\n";
+        $xml .= '    <priority>' . $url['priority'] . "</priority>\n";
+        $xml .= "  </url>\n";
+    }
+
+    $xml .= '</urlset>';
+
+    return response($xml, 200)->header('Content-Type', 'application/xml');
+})->name('sitemap');
 Route::post('/contact', [ContactMessageController::class, 'store'])->name('contact.store');
 Route::post('/testimonial', [TestimonialController::class, 'submitFromWebsite'])->name('testimonial.store');
 

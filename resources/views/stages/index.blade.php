@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Offres de stage — {{ $company->name ?? 'KAS Technology' }}</title>
+    <meta name="description" content="Consultez les offres de stage actives chez KAS Technology et postulez en ligne.">
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+    <link rel="canonical" href="{{ route('stages.index') }}">
     <link rel="icon" type="image/png" href="{{ asset('images/image.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -421,5 +424,6 @@
     window.addEventListener('scroll', onScroll, { passive: true });
 })();
 </script>
+@include('partials.cookie-consent-ga')
 </body>
 </html>

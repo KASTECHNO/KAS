@@ -1,0 +1,137 @@
+KAS Technology - Export Base de Données pour Hébergement
+=============================================================
+
+📦 FICHIER: kas_database.sql
+📅 Date: 06 Avril 2026
+📊 Taille: ~145 KB
+🗄️ Version: MariaDB 10.4+
+
+═══════════════════════════════════════════════════════════════════════
+
+✅ CONTENU DE L'EXPORT:
+
+1. STRUCTURE DE BASE DE DONNÉES
+   - 25 tables avec préfixe `kas_`
+   - Charset: UTF8MB4 (support complet Unicode)
+   - Collation: utf8mb4_unicode_ci
+
+2. DONNÉES SEEDÉES
+   ✓ 28 projets (tous marqués featured)
+   ✓ 26 clients
+   ✓ 18 secteurs d'activité (4 marqués critiques)
+   ✓ 12 services
+   ✓ 15 images de projets
+   ✓ 6 stages / candidatures
+   ✓ 3 plans de pricing (mensuel/annuel/licence)
+   ✓ 10 KPI métriques avec valeurs calculées
+   ✓ 2 témoignages
+   ✓ 3 utilisateurs admin
+
+3. COLONNES AJOUTÉES
+   ✓ activity_sectors.is_critical (identifie les 4 secteurs stratégiques)
+   ✓ projects.is_featured (marqués pour vitrine)
+   ✓ pricing_plans.type & prix (refactoring pricing)
+
+4. KPI METRICS (Valeurs actualisées)
+   ✓ Projets références: 28
+   ✓ Expertises proposées: 12
+   ✓ Secteurs couverts: 18
+   ✓ References secteurs critiques: 11
+   ✓ Total clients: 26
+   ✓ Témoignages publiés: 2
+
+═══════════════════════════════════════════════════════════════════════
+
+🚀 INSTRUCTIONS D'IMPORT SUR HEBERGEMENT:
+
+OPTION 1: Via PhpMyAdmin (Recommandé pour petits hébergements)
+─────────────────────────────────────────────────
+1. Accédez à PhpMyAdmin via votre panel de contrôle
+2. Créez une nouvelle base de données "kas" (charset: utf8mb4)
+3. Sélectionnez la base "kas"
+4. Allez dans l'onglet "Importer"
+5. Cliquez "Choisir fichier" et sélectionnez kas_database.sql
+6. Cliquez "Exécuter"
+7. Attendez la confirmation ✓
+
+OPTION 2: Via Terminal/SSH (Plus rapide pour gros volume)
+────────────────────────────────────────────
+1. Connectez-vous en SSH à votre serveur
+2. Uploadez le fichier kas_database.sql via SFTP
+3. Exécutez la commande:
+
+   mysql -u [utilisateur] -p [base_de_donnees] < kas_database.sql
+
+4. Entrez votre mot de passe quand demandé
+5. Attendez la confirmation
+
+OPTION 3: Via Laravel Artisan (Si code Laravel en place)
+────────────────────────────────────────────
+ssh user@host
+cd /chemin/vers/project
+mysql -u root -p kas < kas_database.sql
+
+═══════════════════════════════════════════════════════════════════════
+
+⚙️ CONFIGURATION LARAVEL (Assurez-vous que .env contient):
+
+DB_CONNECTION=mysql
+DB_HOST=localhost (ou IP du serveur DB)
+DB_PORT=3306
+DB_DATABASE=kas
+DB_USERNAME=votre_utilisateur
+DB_PASSWORD=votre_motdepasse
+DB_PREFIX=kas_
+
+IMPORTANT: Le préfixe `kas_` est OBLIGATOIRE dans .env pour que
+toutes les relations fonctionnent correctement!
+
+═══════════════════════════════════════════════════════════════════════
+
+🔐 SÉCURITÉ:
+
+1. Après l'import, changez les mots de passe admin:
+   - Email: admin@kas-technology.com
+   - Connexion via: /admin/login
+
+2. Chiffrez les données sensibles via .env (APP_KEY)
+
+3. Déactivez le debug mode en production:
+   APP_DEBUG=false
+
+═══════════════════════════════════════════════════════════════════════
+
+✅ VÉRIFICATION POST-IMPORT:
+
+Connectez-vous à MySQL et exécutez:
+
+SHOW TABLES LIKE 'kas_%';  -- Doit afficher 25 tables
+
+SELECT COUNT(*) FROM kas_projects;  -- Doit retourner 28
+
+SELECT * FROM kas_kpi_metrics;  -- Vérifiez les KPI values
+
+SELECT name, is_critical FROM kas_activity_sectors
+WHERE is_critical = 1;  -- Doit afficher 4 secteurs
+
+═══════════════════════════════════════════════════════════════════════
+
+📝 NOTES IMPORTANTES:
+
+• Ce fichier inclut TOUTES les données et structures
+• Aucune migration Larvel n'est nécessaire après import
+• Les timestamps sont figés à 2026-04-06
+• Les IDs auto-increment continueront correctement
+• Les relations foreign key sont intactes
+
+═══════════════════════════════════════════════════════════════════════
+
+❓ SUPPORT:
+
+En cas de problème:
+1. Vérifiez que la base 'kas' existe
+2. Vérifiez les permissions MySQL
+3. Vérifiez l'espace disque disponible
+4. Consultez les logs MySQL: /var/log/mysql/error.log
+
+═══════════════════════════════════════════════════════════════════════

@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $company->name ?? 'KAS Technology' }}</title>
+    <meta name="description" content="KAS Technology accompagne les entreprises en conseil, developpement logiciel, modernisation applicative et transformation digitale.">
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+    <link rel="canonical" href="{{ route('home') }}">
     <link rel="icon" type="image/png" href="{{ asset('images/image.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1555,5 +1558,6 @@ function toggleList(id, btn) {
     window.addEventListener('scroll', onScroll, { passive: true });
 })();
 </script>
+@include('partials.cookie-consent-ga')
 </body>
 </html>
